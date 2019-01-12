@@ -11,7 +11,7 @@ $pushkey="" # Your PushBullet API key
 $pushtag="" # Add the tag for your Pushbullet Channel or leave blank for direct push notifications
 
 # Grab series information
-$sonarr_series=$(Invoke-WebRequest -URI $sonarr_address/api/episode?seriesId=$sonarr_series_id -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
+$sonarr_series=$(Invoke-WebRequest -URI $sonarr_address/api/episode?seriesId=$sonarr_series_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
 
 # Grab episode details
 $sonarr_episode_title = $sonarr_series | where {$_.episodeFileId -eq $sonarr_episodefile_id} | Select -ExpandProperty title
@@ -30,4 +30,4 @@ $pushbody = @{
 }
 
 # Send push notification
-Invoke-WebRequest -Method POST -Uri "https://api.pushbullet.com/v2/pushes" -Header @{"Access-Token" = $pushkey} -Body $pushBody
+Invoke-WebRequest -Method POST -Uri "https://api.pushbullet.com/v2/pushes" -UseBasicParsing -Header @{"Access-Token" = $pushkey} -Body $pushBody

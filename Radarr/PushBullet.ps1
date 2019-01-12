@@ -9,7 +9,7 @@ $pushkey="" # Your PushBullet API key
 $pushtag="" # Add the tag for your Pushbullet Channel or leave blank for direct push notifications
 
 # Grab movie information
-$radarr_movie=$(Invoke-WebRequest -URI $radarr_address/api/movie/$radarr_movie_id -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
+$radarr_movie=$(Invoke-WebRequest -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
 $radarr_description = $radarr_movie | Select -ExpandProperty overview
 
 # Format content
@@ -25,4 +25,4 @@ $pushbody = @{
 }
 
 # Send push notification
-Invoke-WebRequest -Method POST -Uri "https://api.pushbullet.com/v2/pushes" -Header @{"Access-Token" = $pushkey} -Body $pushBody
+Invoke-WebRequest -Method POST -Uri "https://api.pushbullet.com/v2/pushes" -UseBasicParsing -Header @{"Access-Token" = $pushkey} -Body $pushBody
