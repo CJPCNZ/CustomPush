@@ -15,6 +15,7 @@ pushmessage+=$radarr_moviefile_quality
 pushmessage+=" : "
 pushmessage+=$radarr_description
 
+# Create credentials
 credentials=$pushkey
 credentials+=":"
 credentials+=$pushsecret
