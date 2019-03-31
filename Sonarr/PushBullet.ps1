@@ -14,8 +14,8 @@ $pushtag="" # Add the tag for your Pushbullet Channel or leave blank for direct 
 $sonarr_series=$(Invoke-WebRequest -URI $sonarr_address/api/episode?seriesId=$sonarr_series_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
 
 # Grab episode details
-$sonarr_episode_title = $sonarr_series | where {$_.episodeFileId -eq $sonarr_episodefile_id} | Select -ExpandProperty title
-$sonarr_episode_description = $sonarr_series | where {$_.episodeFileId -eq $sonarr_episodefile_id} | Select -ExpandProperty overview
+$sonarr_episode_title = $sonarr_series | Where-Object {$_.Id -eq $sonarr_episodefile_id} | Select-Object -ExpandProperty title
+$sonarr_episode_description = $sonarr_series | Where-Object {$_.Id -eq $sonarr_episodefile_id} | Select-Object -ExpandProperty overview
 
 # Format content
 $pushtitle = $sonarr_series_title + " - S" + $sonarr_episodefile_seasonnumber + ":E" + $sonarr_episodefile_episodenumbers

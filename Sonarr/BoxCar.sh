@@ -6,8 +6,8 @@ pushsecret="" # Your Boxcar API secret
 pushtag="" # Optional push channel tag if you need it
 
 # Grab Episode information
-sonarr_episode_title=$(curl -s $sonarr_address/api/episode?seriesId=$sonarr_series_id --header "X-Api-Key:$apikey" | jq -r ".[] | select(.episodeFileId==$sonarr_episodefile_id) | .title")
-sonarr_episode_description=$(curl -s $sonarr_address/api/episode?seriesId=$sonarr_series_id --header "X-Api-Key:$apikey" | jq -r ".[] | select(.episodeFileId==$sonarr_episodefile_id) | .overview")
+sonarr_episode_title=$(curl -s $sonarr_address/api/episode?seriesId=$sonarr_series_id --header "X-Api-Key:$apikey" | jq -r ".[] | select(.Id==$sonarr_episodefile_id) | .title")
+sonarr_episode_description=$(curl -s $sonarr_address/api/episode?seriesId=$sonarr_series_id --header "X-Api-Key:$apikey" | jq -r ".[] | select(.Id==$sonarr_episodefile_id) | .overview")
 
 # Format content
 pushmessage=$sonarr_series_title
