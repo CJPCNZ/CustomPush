@@ -12,7 +12,7 @@ $pushtag="" # Add the tag for your Pushbullet Channel or leave blank for direct 
 $radarr_movie=$(curl -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
 $radarr_description = $radarr_movie | Select-Object -ExpandProperty overview
 $radarr_image = $radarr_address + "/MediaCover/" + $radarr_movie_id + "/poster.jpg"
-Invoke-WebRequest $radarr_image -OutFile poster.jpg
+Invoke-WebRequest $radarr_image -OutFile ".\poster.jpg"
 
 # Upload Poster
 $pushbody = @{
