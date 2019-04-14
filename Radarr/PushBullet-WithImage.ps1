@@ -71,7 +71,7 @@ $pushbody = @{
     body = $pushmessage
     file_type = $uploadImage.file_type
     file_url = $uploadImage.file_url
-    channel_tag = $channeltag
+    channel_tag = $pushtag
 }
 
 # Send push notification
