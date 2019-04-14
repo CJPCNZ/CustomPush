@@ -20,7 +20,7 @@ $pushbody = @{
     "file_type" = "image/jpeg"
 }
 
-$uploadImage = Invoke-WebRequest -Method POST -Uri "https://api.pushbullet.com/v2/upload-request" -Header @{"Access-Token" = $pushkey} -Body $pushbody | convertfrom-json
+$uploadImage = Invoke-WebRequest -Method POST -Uri "https://api.pushbullet.com/v2/upload-request" -UseBasicParsing -Header @{"Access-Token" = $pushkey} -Body $pushbody | convertfrom-json
 $uploadData = $uploadImage.data[0]
 
 $FilePath = "$PSScriptRoot\poster.jpg";
