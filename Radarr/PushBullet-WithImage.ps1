@@ -12,7 +12,7 @@ $pushtag="" # Add the tag for your Pushbullet Channel or leave blank for direct 
 $radarr_movie=$(curl -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
 $radarr_description = $radarr_movie | Select-Object -ExpandProperty overview
 $radarr_image = $radarr_address + "/MediaCover/" + $radarr_movie_id + "/poster.jpg"
-Invoke-WebRequest $radarr_image -UseBasicParsing -OutFile ".\poster.jpg"
+Invoke-WebRequest $radarr_image -UseBasicParsing -OutFile "$PSScriptRoot\poster.jpg"
 
 # Upload Poster
 $pushbody = @{
@@ -23,7 +23,7 @@ $pushbody = @{
 $uploadImage = Invoke-WebRequest -Method POST -Uri "https://api.pushbullet.com/v2/upload-request" -Header @{"Access-Token" = $pushkey} -Body $pushbody | convertfrom-json
 $uploadData = $uploadImage.data[0]
 
-$FilePath = '.\poster.jpg';
+$FilePath = "$PSScriptRoot\poster.jpg";
 $fileBytes = [System.IO.File]::ReadAllBytes($FilePath);
 $fileEnc = [System.Text.Encoding]::GetEncoding('ISO-8859-1').GetString($fileBytes);
 $boundary = [System.Guid]::NewGuid().ToString(); 
@@ -56,7 +56,7 @@ $bodyLines = (
 
 Invoke-RestMethod -Uri $uploadImage.upload_url -Method Post -UseBasicParsing -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $bodyLines | convertfrom-json
 
-rm poster.jpg
+rm "$PSScriptRoot\poster.jpg"
 
 # Format content
 $pushtitle = $radarr_movie_title + " - " + $radarr_moviefile_quality
