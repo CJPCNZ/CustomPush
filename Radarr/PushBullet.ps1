@@ -10,7 +10,7 @@ $pushtag="" # Add the tag for your Pushbullet Channel or leave blank for direct 
 
 # Grab movie information
 $radarr_movie=$(Invoke-WebRequest -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
-$radarr_description = $radarr_movie | Select -ExpandProperty overview
+$radarr_description = $radarr_movie | Select-Object -ExpandProperty overview
 
 # Format content
 $pushtitle = $radarr_movie_title + " - " + $radarr_moviefile_quality

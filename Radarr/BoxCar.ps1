@@ -9,8 +9,8 @@ $pushkey="" # Your Boxcar API key
 $pushsecret="" # Your Boxcar API secret
 $pushtag="" # Optional push channel tag if you need it
 
-# Grab movie information
-$radarr_movie=$(Invoke-WebRequest -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
+# Grab movie information - Enable the next two lines if you want descriptions in Boxcar messages
+# $radarr_movie=$(Invoke-WebRequest -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
 # $radarr_description = $radarr_movie | Select -ExpandProperty overview
 
 # Format content
