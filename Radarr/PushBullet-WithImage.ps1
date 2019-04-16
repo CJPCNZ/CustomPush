@@ -12,7 +12,7 @@ $pushtag="" # Add the tag for your Pushbullet Channel or leave blank for direct 
 $user = $null
 $pass = $null
 
-if (($user -ne $null) -and ($pass -ne $null)){
+if (($null -ne $user) -and ($null -ne $pass)){
 # Create authentication value
 $pair = "$($user):$($pass)"
 $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair))
