@@ -8,11 +8,28 @@ $radarr_address="http://localhost:7878" # Your Radarr address (including base_ur
 $pushkey="" # Your PushBullet API key
 $pushtag="" # Add the tag for your Pushbullet Channel or leave blank for direct push notifications
 
+# Change $null to "username" / "password" if you use basic authentication in Radarr
+$user = $null
+$pass = $null
+
+if (($user -ne $null) -and ($pass -ne $null)){
+# Create authentication value
+$pair = "$($user):$($pass)"
+$encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair))
+$basicAuthValue = "Basic $encodedCreds"
+
+# Grab movie information
+$radarr_movie=$(curl -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Credential $basicAuthValue -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
+$radarr_description = $radarr_movie | Select-Object -ExpandProperty overview
+$radarr_image = $radarr_address + "/MediaCover/" + $radarr_movie_id + "/poster.jpg"
+Invoke-WebRequest $radarr_image -UseBasicParsing -OutFile "$PSScriptRoot\poster.jpg" -Credential $basicAuthValue
+} Else {
 # Grab movie information
 $radarr_movie=$(curl -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
 $radarr_description = $radarr_movie | Select-Object -ExpandProperty overview
 $radarr_image = $radarr_address + "/MediaCover/" + $radarr_movie_id + "/poster.jpg"
 Invoke-WebRequest $radarr_image -UseBasicParsing -OutFile "$PSScriptRoot\poster.jpg"
+}
 
 # Upload Poster
 $pushbody = @{
