@@ -19,10 +19,10 @@ $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.G
 $basicAuthValue = "Basic $encodedCreds"
 
 # Grab movie information
-$radarr_movie=$(curl -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Credential $basicAuthValue -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
+$radarr_movie=$(curl -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey; "Authorization" = $basicAuthValue }) | ConvertFrom-Json
 $radarr_description = $radarr_movie | Select-Object -ExpandProperty overview
 $radarr_image = $radarr_address + "/MediaCover/" + $radarr_movie_id + "/poster.jpg"
-Invoke-WebRequest $radarr_image -UseBasicParsing -OutFile "$PSScriptRoot\poster.jpg" -Credential $basicAuthValue
+Invoke-WebRequest $radarr_image -UseBasicParsing -OutFile "$PSScriptRoot\poster.jpg" -Header @{"Authorization" = $basicAuthValue }
 } Else {
 # Grab movie information
 $radarr_movie=$(curl -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
