@@ -37,14 +37,14 @@ $sonarr_episode_description = $sonarr_series | Where-Object {$_.episodeFileId -e
 
 # Upload Poster
 $pushbody = @{
-    "file_name" = "poster.jpg"
+    "file_name" = "tvposter.jpg"
     "file_type" = "image/jpeg"
 }
 
 $uploadImage = Invoke-WebRequest -Method POST -Uri "https://api.pushbullet.com/v2/upload-request" -UseBasicParsing -Header @{"Access-Token" = $pushkey} -Body $pushbody | convertfrom-json
 $uploadData = $uploadImage.data[0]
 
-$FilePath = "$PSScriptRoot\poster.jpg";
+$FilePath = "$PSScriptRoot\tvposter.jpg";
 $fileBytes = [System.IO.File]::ReadAllBytes($FilePath);
 $fileEnc = [System.Text.Encoding]::GetEncoding('ISO-8859-1').GetString($fileBytes);
 $boundary = [System.Guid]::NewGuid().ToString(); 
@@ -77,7 +77,7 @@ $bodyLines = (
 
 Invoke-RestMethod -Uri $uploadImage.upload_url -Method Post -UseBasicParsing -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $bodyLines | convertfrom-json
 
-rm "$PSScriptRoot\poster.jpg"
+rm "$PSScriptRoot\tvposter.jpg"
 
 # Format content
 $pushtitle = $sonarr_series_title + " - S" + $sonarr_episodefile_seasonnumber + ":E" + $sonarr_episodefile_episodenumbers
