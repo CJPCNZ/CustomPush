@@ -19,12 +19,12 @@ $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.G
 $basicAuthValue = "Basic $encodedCreds"
 
 # Grab movie information
-$lidarr_album=$(Invoke-WebRequest  -URI $lidarr_address/api/v1/album/$lidarr_album_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey; "Authorization" = $basicAuthValue }) | ConvertFrom-Json
+#$lidarr_album=$(Invoke-WebRequest  -URI $lidarr_address/api/v1/album/$lidarr_album_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey; "Authorization" = $basicAuthValue }) | ConvertFrom-Json
 $lidarr_image = $lidarr_address + "/MediaCover/" + $lidarr_album_id + "/poster.jpg"
 Invoke-WebRequest $lidarr_image -UseBasicParsing -OutFile "$PSScriptRoot\poster.jpg" -Header @{"Authorization" = $basicAuthValue }
 } Else {
 # Grab movie information
-$lidarr_album=$(Invoke-WebRequest  -URI $lidarr_address/api/v1/album/$lidarr_album_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
+#$lidarr_album=$(Invoke-WebRequest  -URI $lidarr_address/api/v1/album/$lidarr_album_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
 $lidarr_image = $lidarr_address + "/MediaCover/" + $lidarr_album_id + "/poster.jpg"
 Invoke-WebRequest $lidarr_image -UseBasicParsing -OutFile "$PSScriptRoot\poster.jpg"
 }
