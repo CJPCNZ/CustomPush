@@ -1,10 +1,12 @@
-# Define required variables
-$radarr_movie_id = $env:radarr_movie_id 
-$radarr_movie_title = $env:radarr_movie_title 
-$radarr_moviefile_quality = $env:radarr_moviefile_quality
+# Define Variables
+$sonarr_episodefile_id = $env:sonarr_episodefile_id
+$sonarr_series_id = $env:sonarr_series_id
+$sonarr_series_title = $env:sonarr_series_title
+$sonarr_episodefile_seasonnumber = $env:sonarr_episodefile_seasonnumber
+$sonarr_episodefile_episodenumbers = $env:sonarr_episodefile_episodenumbers
 
-$apikey="" # Your Radarr API key 
-$radarr_address="http://localhost:7878" # Your Radarr address (including base_url) 
+$apikey="" # Your Sonarr API key 
+$sonarr_address="http://localhost:8989" # Your Sonarr address (including base_url) 
 $pushkey="" # Your PushBullet API key
 $pushtag="" # Add the tag for your Pushbullet Channel or leave blank for direct push notifications
 
@@ -18,18 +20,18 @@ $pair = "$($user):$($pass)"
 $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair))
 $basicAuthValue = "Basic $encodedCreds"
 
-# Grab movie information
-$radarr_movie=$(Invoke-WebRequest  -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey; "Authorization" = $basicAuthValue }) | ConvertFrom-Json
-$radarr_description = $radarr_movie | Select-Object -ExpandProperty overview
-$radarr_image = $radarr_address + "/MediaCover/" + $radarr_movie_id + "/poster.jpg"
-Invoke-WebRequest $radarr_image -UseBasicParsing -OutFile "$PSScriptRoot\poster.jpg" -Header @{"Authorization" = $basicAuthValue }
+# Grab series information
+$sonarr_series=$(Invoke-WebRequest  -URI $sonarr_address/api/episode?seriesId=$sonarr_series_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey; "Authorization" = $basicAuthValue }) | ConvertFrom-Json
+Invoke-WebRequest $Sonarr_image -UseBasicParsing -OutFile "$PSScriptRoot\tvposter.jpg" -Header @{"Authorization" = $basicAuthValue }
 } Else {
-# Grab movie information
-$radarr_movie=$(Invoke-WebRequest  -URI $radarr_address/api/movie/$radarr_movie_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
-$radarr_description = $radarr_movie | Select-Object -ExpandProperty overview
-$radarr_image = $radarr_address + "/MediaCover/" + $radarr_movie_id + "/poster.jpg"
-Invoke-WebRequest $radarr_image -UseBasicParsing -OutFile "$PSScriptRoot\poster.jpg"
+# Grab series information
+$sonarr_series=$(Invoke-WebRequest  -URI $sonarr_address/api/episode?seriesId=$sonarr_series_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
+Invoke-WebRequest $Sonarr_image -UseBasicParsing -OutFile "$PSScriptRoot\tvposter.jpg"
 }
+
+# Grab episode details
+$sonarr_episode_title = $sonarr_series | Where-Object {$_.episodeFileId -eq $sonarr_episodefile_id} | Select-Object -ExpandProperty title
+$sonarr_episode_description = $sonarr_series | Where-Object {$_.episodeFileId -eq $sonarr_episodefile_id} | Select-Object -ExpandProperty overview
 
 # Upload Poster
 $pushbody = @{
@@ -76,8 +78,8 @@ Invoke-RestMethod -Uri $uploadImage.upload_url -Method Post -UseBasicParsing -Co
 rm "$PSScriptRoot\poster.jpg"
 
 # Format content
-$pushtitle = $radarr_movie_title + " - " + $radarr_moviefile_quality
-$pushmessage = $radarr_description
+$pushtitle = $sonarr_series_title + " - S" + $sonarr_episodefile_seasonnumber + ":E" + $sonarr_episodefile_episodenumbers
+$pushmessage = $sonarr_episode_title + " - " + $sonarr_episode_description
 
 # Prepare push notification body
 
