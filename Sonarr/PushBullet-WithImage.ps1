@@ -22,10 +22,12 @@ $basicAuthValue = "Basic $encodedCreds"
 
 # Grab series information
 $sonarr_series=$(Invoke-WebRequest  -URI $sonarr_address/api/episode?seriesId=$sonarr_series_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey; "Authorization" = $basicAuthValue }) | ConvertFrom-Json
+$sonarr_image = $sonarr_address + "/MediaCover/" + $sonarr_series_id + "/poster.jpg"
 Invoke-WebRequest $Sonarr_image -UseBasicParsing -OutFile "$PSScriptRoot\tvposter.jpg" -Header @{"Authorization" = $basicAuthValue }
 } Else {
 # Grab series information
 $sonarr_series=$(Invoke-WebRequest  -URI $sonarr_address/api/episode?seriesId=$sonarr_series_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
+$sonarr_image = $sonarr_address + "/MediaCover/" + $sonarr_series_id + "/poster.jpg"
 Invoke-WebRequest $Sonarr_image -UseBasicParsing -OutFile "$PSScriptRoot\tvposter.jpg"
 }
 
