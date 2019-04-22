@@ -1,5 +1,5 @@
 # Define required variables
-$lidarr_album_id = $env:lidarr_album_id
+$lidarr_artist_id = $env:lidarr_artist_id
 $lidarr_album_title = $env:lidarr_album_title
 $lidarr_artist_name = $env:lidarr_artist_name
 
@@ -19,13 +19,13 @@ $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.G
 $basicAuthValue = "Basic $encodedCreds"
 
 # Grab movie information
-#$lidarr_album=$(Invoke-WebRequest  -URI $lidarr_address/api/v1/album/$lidarr_album_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey; "Authorization" = $basicAuthValue }) | ConvertFrom-Json
-$lidarr_image = $lidarr_address + "/MediaCover/" + $lidarr_album_id + "/fanart.jpg"
+#$lidarr_album=$(Invoke-WebRequest  -URI $lidarr_address/api/v1/album/$lidarr_artist_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey; "Authorization" = $basicAuthValue }) | ConvertFrom-Json
+$lidarr_image = $lidarr_address + "/MediaCover/" + $lidarr_artist_id + "/fanart.jpg"
 Invoke-WebRequest $lidarr_image -UseBasicParsing -OutFile "$PSScriptRoot\fanart.jpg" -Header @{"Authorization" = $basicAuthValue }
 } Else {
 # Grab movie information
-#$lidarr_album=$(Invoke-WebRequest  -URI $lidarr_address/api/v1/album/$lidarr_album_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
-$lidarr_image = $lidarr_address + "/MediaCover/" + $lidarr_album_id + "/fanart.jpg"
+#$lidarr_album=$(Invoke-WebRequest  -URI $lidarr_address/api/v1/album/$lidarr_artist_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
+$lidarr_image = $lidarr_address + "/MediaCover/" + $lidarr_artist_id + "/fanart.jpg"
 Invoke-WebRequest $lidarr_image -UseBasicParsing -OutFile "$PSScriptRoot\fanart.jpg"
 }
 
