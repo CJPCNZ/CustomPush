@@ -20,25 +20,25 @@ $basicAuthValue = "Basic $encodedCreds"
 
 # Grab movie information
 #$lidarr_album=$(Invoke-WebRequest  -URI $lidarr_address/api/v1/album/$lidarr_album_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey; "Authorization" = $basicAuthValue }) | ConvertFrom-Json
-$lidarr_image = $lidarr_address + "/MediaCover/" + $lidarr_album_id + "/coverart.jpg"
-Invoke-WebRequest $lidarr_image -UseBasicParsing -OutFile "$PSScriptRoot\coverart.jpg" -Header @{"Authorization" = $basicAuthValue }
+$lidarr_image = $lidarr_address + "/MediaCover/" + $lidarr_album_id + "/fanart.jpg"
+Invoke-WebRequest $lidarr_image -UseBasicParsing -OutFile "$PSScriptRoot\fanart.jpg" -Header @{"Authorization" = $basicAuthValue }
 } Else {
 # Grab movie information
 #$lidarr_album=$(Invoke-WebRequest  -URI $lidarr_address/api/v1/album/$lidarr_album_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
-$lidarr_image = $lidarr_address + "/MediaCover/" + $lidarr_album_id + "/coverart.jpg"
-Invoke-WebRequest $lidarr_image -UseBasicParsing -OutFile "$PSScriptRoot\coverart.jpg"
+$lidarr_image = $lidarr_address + "/MediaCover/" + $lidarr_album_id + "/fanart.jpg"
+Invoke-WebRequest $lidarr_image -UseBasicParsing -OutFile "$PSScriptRoot\fanart.jpg"
 }
 
 # Upload Poster
 $pushbody = @{
-    "file_name" = "coverart.jpg"
+    "file_name" = "fanart.jpg"
     "file_type" = "image/jpeg"
 }
 
 $uploadImage = Invoke-WebRequest -Method POST -Uri "https://api.pushbullet.com/v2/upload-request" -UseBasicParsing -Header @{"Access-Token" = $pushkey} -Body $pushbody | convertfrom-json
 $uploadData = $uploadImage.data[0]
 
-$FilePath = "$PSScriptRoot\coverart.jpg";
+$FilePath = "$PSScriptRoot\fanart.jpg";
 $fileBytes = [System.IO.File]::ReadAllBytes($FilePath);
 $fileEnc = [System.Text.Encoding]::GetEncoding('ISO-8859-1').GetString($fileBytes);
 $boundary = [System.Guid]::NewGuid().ToString(); 
@@ -71,7 +71,7 @@ $bodyLines = (
 
 Invoke-RestMethod -Uri $uploadImage.upload_url -Method Post -UseBasicParsing -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $bodyLines | convertfrom-json
 
-rm "$PSScriptRoot\coverart.jpg"
+rm "$PSScriptRoot\fanart.jpg"
 
 # Format content
 $pushtitle = $lidarr_artist_name
