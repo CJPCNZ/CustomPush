@@ -5,7 +5,7 @@ pushkey="" # Your PushBullet API key
 pushtag="" # Optional push channel if you need it
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-# Change $null to "username" / "password" if you use basic authentication in Radarr
+# Change to "username" / "password" if you use basic authentication in Radarr
 user=""
 pass=""
 
@@ -53,7 +53,6 @@ pushbody=$( jq -n \
     --arg body "$pushmessage" \
     --arg channel "$pushtag" \
     '{body: $body, title: $title, type: "file", channel_tag: $channel, file_name: "poster.jpg", file_type: "image/jpeg", file_url: $file_url}' )
-
 
 # Send push notification
 curl --header "Access-Token:$pushkey" --header 'Content-Type: application/json' --data-binary "$pushbody" --request POST https://api.pushbullet.com/v2/pushes
