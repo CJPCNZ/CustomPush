@@ -2,7 +2,9 @@
 Custom Push Notifications for Sonarr and Radarr
 
 ## Recent Changes
-- Added BoxCar Notification Scripts
+- Added cover art support
+- Added Lidarr support
+- Added BoxCar notification scripts
 
 ## What is this?
 I have been looking for a way to customise the push notifications I receive from Sonarr and Radarr to make things easier at a glance. I didn't like "Radarr - Movie Downloaded" or "Sonarr - Episode Downloaded" and other services would tell me which episode/movie was actually completed.
