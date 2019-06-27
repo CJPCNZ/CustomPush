@@ -1,5 +1,5 @@
 # CustomPush
-Custom Push Notifications for Sonarr and Radarr
+Custom Push Notifications for Sonarr, Radarr and Lidarr
 
 ## Recent Changes
 - Added cover art support
@@ -48,7 +48,7 @@ I have not been able to test this on a Mac but I understand it should work the s
 
 [jaycedk] (https://github.com/jaycedk) - For suggesting new features, helping me test and implement them and encouraging me to keep improving this.
 
-Also a big thanks to the Sonarr and Radarr teams for their great products, well documented API's and sample scripts.
+Also a big thanks to the Sonarr, Radarr and Lidarr teams for their great products, well documented API's and sample scripts.
 
 ## What's Next? Something Broke! I did a thing!
 - If you found an issue and can't fix it yourself, please log an issue in GitHub and I will try to fix it for you.
