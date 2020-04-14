@@ -47,7 +47,7 @@ I have not been able to test this on a Mac but I understand it should work the s
 ## Credits
 [bobbintb](https://forums.sonarr.tv/u/bobbintb) - His original email and SMS notification script is what inspired this and was used/modified for my scripts. [https://forums.sonarr.tv/t/custom-email-and-sms-notifications/14401](https://forums.sonarr.tv/t/custom-email-and-sms-notifications/14401)
 
-[jaycedk] (https://github.com/jaycedk) - For suggesting new features, helping me test and implement them and encouraging me to keep improving this.
+[jaycedk](https://github.com/jaycedk) - For suggesting new features, helping me test and implement them and encouraging me to keep improving this.
 
 Also a big thanks to the Sonarr, Radarr and Lidarr teams for their great products, well documented API's and sample scripts.
 
