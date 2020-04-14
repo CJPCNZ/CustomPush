@@ -77,7 +77,7 @@ $bodyLines = (
 
 Invoke-RestMethod -Uri $uploadImage.upload_url -Method Post -UseBasicParsing -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $bodyLines | convertfrom-json
 
-rm "$PSScriptRoot\tvposter.jpg"
+Remove-Item "$PSScriptRoot\tvposter.jpg"
 
 # Format content
 $pushtitle = $sonarr_series_title + " - S" + $sonarr_episodefile_seasonnumber + ":E" + $sonarr_episodefile_episodenumbers

@@ -2,6 +2,7 @@
 Custom Push Notifications for Sonarr, Radarr and Lidarr
 
 ## Recent Changes
+- Added Email notification support (Gmail by default)
 - Added cover art support
 - Added Lidarr support
 - Added BoxCar notification scripts
