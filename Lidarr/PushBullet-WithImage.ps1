@@ -3,7 +3,7 @@ $lidarr_artist_id = $env:lidarr_artist_id
 $lidarr_album_title = $env:lidarr_album_title
 $lidarr_artist_name = $env:lidarr_artist_name
 
-$apikey="" # Your lidarr API key 
+#$apikey="" # Your lidarr API key 
 $lidarr_address="http://localhost:7878" # Your lidarr address (including base_url) 
 $pushkey="" # Your PushBullet API key
 $pushtag="" # Add the tag for your Pushbullet Channel or leave blank for direct push notifications
