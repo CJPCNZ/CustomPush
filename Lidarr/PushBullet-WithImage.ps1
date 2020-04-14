@@ -71,7 +71,7 @@ $bodyLines = (
 
 Invoke-RestMethod -Uri $uploadImage.upload_url -Method Post -UseBasicParsing -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $bodyLines | convertfrom-json
 
-rm "$PSScriptRoot\fanart.jpg"
+Remove-Item "$PSScriptRoot\fanart.jpg"
 
 # Format content
 $pushtitle = $lidarr_artist_name

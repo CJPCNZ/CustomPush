@@ -73,7 +73,7 @@ $bodyLines = (
 
 Invoke-RestMethod -Uri $uploadImage.upload_url -Method Post -UseBasicParsing -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $bodyLines | convertfrom-json
 
-rm "$PSScriptRoot\poster.jpg"
+Remove-Item "$PSScriptRoot\poster.jpg"
 
 # Format content
 $pushtitle = $radarr_movie_title + " - " + $radarr_moviefile_quality
