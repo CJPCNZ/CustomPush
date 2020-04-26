@@ -12,22 +12,26 @@ pass=""
 if [ -n "$user" ] && [ -n "$pass" ] ;
 then
 # Grab movie information
-radarr_description=$(curl -u $user:$pass -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey") | jq .overview;
-wget -u $user:$pass $radarr_address/MediaCover/$radarr_movie_id/poster.jpg --header "X-Api-Key:$apikey"
+radarr_description=$(curl -u $user:$pass -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey" | jq -r .overview);
+radarr_year=$(curl -u $user:$pass -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey" | jq -r .year);
+radarr_youTubeTrailerId=$(curl -u $user:$pass -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey" | jq -r .youTubeTrailerId);
+wget -u $user:$pass -q -O "$DIR/poster.jpg" $radarr_address/MediaCover/$radarr_movie_id/poster.jpg --header "X-Api-Key:$apikey"
 else 
 # Grab movie information
-radarr_description=$(curl -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey") | jq .overview;
-wget $radarr_address/MediaCover/$radarr_movie_id/poster.jpg --header "X-Api-Key:$apikey"
+radarr_description=$(curl -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey" | jq -r .overview);
+radarr_year=$(curl -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey" | jq -r .year);
+radarr_youTubeTrailerId=$(curl -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey" | jq -r .youTubeTrailerId);
+wget -q -O "$DIR/poster.jpg" $radarr_address/MediaCover/$radarr_movie_id/poster.jpg --header "X-Api-Key:$apikey"
 fi
 
 # Get important data
-curl --header "Access-Token:o.hz3Vs5k2wytLF07FvvfnCo1Ub60zj8cA" -d file_name=poster.jpg -d file_type=image/jpeg https://api.pushbullet.com/v2/upload-request -o "$DIR/Radarr.json"
+curl -s --header "Access-Token:$pushkey" -d file_name=poster.jpg -d file_type=image/jpeg https://api.pushbullet.com/v2/upload-request -o "$DIR/Radarr.json"
 uploadImage=( $(cat $DIR/Radarr.json | jq -r '.data[]' ) )
 uploadURL=( $(cat $DIR/Radarr.json | jq -r '.upload_url') )
 fileURL=( $(cat $DIR/Radarr.json | jq -r '.file_url') )
 
 # Upload the File
-curl -X POST $uploadURL\
+curl -s -X POST $uploadURL\
     -F awsaccesskeyid=${uploadImage[1]} \
     -F acl=${uploadImage[0]} \
     -F key=${uploadImage[3]} \
@@ -41,10 +45,19 @@ rm $DIR/Radarr.json
 
 # Format content
 pushtitle=$radarr_movie_title 
-pushtitle+=" - " 
+pushtitle+=" (" 
+pushtitle+=$radarr_year
+pushtitle+=") ["
 pushtitle+=$radarr_moviefile_quality
+pushtitle+="]"
 
-pushmessage=$radarr_description
+pushmessage=$'Description:\n'
+pushmessage+=$radarr_description
+pushmessage+=$'\n\nIMDb: https://imdb.com/title/'
+pushmessage+=$radarr_movie_imdbid
+pushmessage+=$'\nTrailer: https://www.youtube.com/watch?v='
+pushmessage+=$radarr_youTubeTrailerId
+pushmessage+=$'\n'
 
 # Prepare push notification body
 pushbody=$( jq -n \
@@ -55,4 +68,4 @@ pushbody=$( jq -n \
     '{body: $body, title: $title, type: "file", channel_tag: $channel, file_name: "poster.jpg", file_type: "image/jpeg", file_url: $file_url}' )
 
 # Send push notification
-curl --header "Access-Token:$pushkey" --header 'Content-Type: application/json' --data-binary "$pushbody" --request POST https://api.pushbullet.com/v2/pushes
+curl -s --header "Access-Token:$pushkey" --header 'Content-Type: application/json' --data-binary "$pushbody" --request POST https://api.pushbullet.com/v2/pushes
