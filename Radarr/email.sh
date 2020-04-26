@@ -9,7 +9,7 @@ Username="" # Your email username (the part before @gmail.com)
 Password="" # Your email password (If you use 2FA please generate an app-specific password here: https://myaccount.google.com/apppasswords)
 
 # Grab movie information
-radarr_description=$(curl -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey") | jq .overview
+radarr_description=$(curl -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey" | jq .overview)
 
 # Format content
 Subject=$radarr_movie_title 

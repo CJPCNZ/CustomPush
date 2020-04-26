@@ -5,7 +5,7 @@ pushkey="" # Your PushBullet API key
 pushtag="" # Optional push channel if you need it
 
 # Grab movie information
-radarr_description=$(curl -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey") | jq .overview
+radarr_description=$(curl -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey" | jq .overview)
 
 # Format content
 pushtitle=$radarr_movie_title 
