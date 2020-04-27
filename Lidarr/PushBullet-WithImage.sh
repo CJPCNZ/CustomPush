@@ -11,7 +11,7 @@ pass=""
 
 if [ -n "$user" ] && [ -n "$pass" ] ;
 then
-wget -u $user:$pass -q -O "$DIR/cover.jpg" $lidarr_address/MediaCover/Albums/$lidarr_album_id/cover.jpg --header "X-Api-Key:$apikey"
+wget --user=$user --password=$pass -q -O "$DIR/cover.jpg" $lidarr_address/MediaCover/Albums/$lidarr_album_id/cover.jpg --header "X-Api-Key:$apikey"
 else 
 wget -q -O "$DIR/cover.jpg" $lidarr_address/MediaCover/Albums/$lidarr_album_id/cover.jpg --header "X-Api-Key:$apikey"
 fi
