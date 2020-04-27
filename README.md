@@ -51,6 +51,8 @@ I have not been able to test this on a Mac but I understand it should work the s
 
 [brainwash111](https://github.com/brainwash111) - For fixing errors and greatly improving the Pushbullet-WithImage.sh scripts!
 
+[chinedu40](https://github.com/chinedu40) - For testing and fixing errors with wget authentication!
+
 Also a big thanks to the Sonarr, Radarr and Lidarr teams for their great products, well documented API's and sample scripts.
 
 ## What's Next? Something Broke! I did a thing!
