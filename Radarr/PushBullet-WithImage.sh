@@ -15,7 +15,7 @@ then
 radarr_description=$(curl -u $user:$pass -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey" | jq -r .overview);
 radarr_year=$(curl -u $user:$pass -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey" | jq -r .year);
 radarr_youTubeTrailerId=$(curl -u $user:$pass -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey" | jq -r .youTubeTrailerId);
-wget -u $user:$pass -q -O "$DIR/poster.jpg" $radarr_address/MediaCover/$radarr_movie_id/poster.jpg --header "X-Api-Key:$apikey"
+wget --user=$user --password=$pass -q -O "$DIR/poster.jpg" $radarr_address/MediaCover/$radarr_movie_id/poster.jpg --header "X-Api-Key:$apikey"
 else 
 # Grab movie information
 radarr_description=$(curl -s $radarr_address/api/movie/$radarr_movie_id --header "X-Api-Key:$apikey" | jq -r .overview);
