@@ -15,7 +15,7 @@ then
 sonarr_episode_title=$(curl -u $user:$pass -s $sonarr_address/api/episode?seriesId=$sonarr_series_id --header "X-Api-Key:$apikey" | jq -r ".[] | select(.episodeFileId==$sonarr_episodefile_id) | .title")
 sonarr_episode_description=$(curl -u $user:$pass -s $sonarr_address/api/episode?seriesId=$sonarr_series_id --header "X-Api-Key:$apikey" | jq -r ".[] | select(.episodeFileId==$sonarr_episodefile_id) | .overview")
 sonarr_serie_network=$(curl -u $user:$pass -s $sonarr_address/api/series/$sonarr_series_id --header "X-Api-Key:$apikey" | jq -r .network)
-wget -u $user:$pass -q -O "$DIR/poster.jpg" $sonarr_address/MediaCover/$sonarr_series_id/poster.jpg --header "X-Api-Key:$apikey"
+wget --user=$user --password=$pass -q -O "$DIR/poster.jpg" $sonarr_address/MediaCover/$sonarr_series_id/poster.jpg --header "X-Api-Key:$apikey"
 else 
 # Grab Episode information
 sonarr_episode_title=$(curl -s $sonarr_address/api/episode?seriesId=$sonarr_series_id --header "X-Api-Key:$apikey" | jq -r ".[] | select(.episodeFileId==$sonarr_episodefile_id) | .title")
