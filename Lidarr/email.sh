@@ -1,0 +1,59 @@
+#!/bin/bash
+MailHost="" # Your email SMTP server (e.g. smtp.gmail.com)
+MailPort="25" # Your email SMTP port (usually 25)
+FromAddr="<>" # Your email address (gmail requires <> to be included)
+ToAddr="<>" # Recipient email address (gmail requires <> to be included)
+Username="" # Your email username (the part before @gmail.com)
+Password="" # Your email password (If you use 2FA please generate an app-specific password here: https://myaccount.google.com/apppasswords)
+
+# Format content
+lidarr_album_releaseday=( $(echo $lidarr_album_releasedate | cut -d " " -f1) )
+
+Subject=$lidarr_artist_name
+Subject+=" - "
+Subject+=$lidarr_album_title
+
+Message=$'Release Date: '
+Message+=$lidarr_album_releaseday
+Message+=$'\n\nMusicBrainz: https://musicbrainz.org/release-group/'
+Message+=$lidarr_album_mbid
+Message+=$'\n'
+
+# Format Username and Password
+Username=$(echo -ne $Username | base64)
+Password=$(echo -ne $Password | base64)
+
+# Send email - Credit to dldnh on StackOverflow https://stackoverflow.com/a/10001357
+function checkStatus {
+  expect=250
+  if [ $# -eq 3 ] ; then
+    expect="${3}"
+  fi
+  if [ $1 -ne $expect ] ; then
+    echo "Error: ${2}"
+    exit
+  fi
+}
+
+(
+sleep 3
+echo "HELO ${MailHost}"
+sleep 3
+echo "AUTH LOGIN"
+sleep 3
+echo "${Username}"
+sleep 3
+echo "${Password}"
+sleep 3
+echo "MAIL FROM: ${FromAddr}"
+sleep 3
+echo "RCPT TO: ${ToAddr}"
+sleep 3
+echo "DATA"
+sleep 3
+echo "Subject: ${Subject}"
+echo "${Message}"
+echo "."
+sleep 3
+echo "QUIT"
+) | openssl s_client -starttls smtp -connect $MailHost:$MailPort -crlf

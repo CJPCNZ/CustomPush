@@ -2,9 +2,9 @@
 $lidarr_artist_id = $env:lidarr_artist_id
 $lidarr_album_title = $env:lidarr_album_title
 $lidarr_artist_name = $env:lidarr_artist_name
-
-#$apikey="" # Your lidarr API key 
-$lidarr_address="http://localhost:7878" # Your lidarr address (including base_url) 
+$lidarr_album_releasedate = $env:lidarr_album_releasedate
+$lidarr_album_mbid = $env:lidarr_album_mbid
+$lidarr_address="http://localhost:8686" # Your lidarr address (including base_url) 
 $pushkey="" # Your PushBullet API key
 $pushtag="" # Add the tag for your Pushbullet Channel or leave blank for direct push notifications
 
@@ -18,13 +18,11 @@ $pair = "$($user):$($pass)"
 $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair))
 $basicAuthValue = "Basic $encodedCreds"
 
-# Grab movie information
-#$lidarr_album=$(Invoke-WebRequest  -URI $lidarr_address/api/v1/album/$lidarr_artist_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey; "Authorization" = $basicAuthValue }) | ConvertFrom-Json
+# Grab coverart
 $lidarr_image = $lidarr_address + "/MediaCover/" + $lidarr_artist_id + "/fanart.jpg"
 Invoke-WebRequest $lidarr_image -UseBasicParsing -OutFile "$PSScriptRoot\fanart.jpg" -Header @{"Authorization" = $basicAuthValue }
 } Else {
-# Grab movie information
-#$lidarr_album=$(Invoke-WebRequest  -URI $lidarr_address/api/v1/album/$lidarr_artist_id -UseBasicParsing -Header @{"X-Api-Key" = $apikey}) | ConvertFrom-Json
+# Grab coverart
 $lidarr_image = $lidarr_address + "/MediaCover/" + $lidarr_artist_id + "/fanart.jpg"
 Invoke-WebRequest $lidarr_image -UseBasicParsing -OutFile "$PSScriptRoot\fanart.jpg"
 }
@@ -74,8 +72,9 @@ Invoke-RestMethod -Uri $uploadImage.upload_url -Method Post -UseBasicParsing -Co
 Remove-Item "$PSScriptRoot\fanart.jpg"
 
 # Format content
-$pushtitle = $lidarr_artist_name
-$pushmessage = $lidarr_album_title
+$lidarr_album_releaseday=$lidarr_album_releasedate.split(" ")[1]
+$pushtitle = $lidarr_artist_name + " - " + $lidarr_album_title
+$pushmessage = "Release Date: " + $lidarr_album_releaseday + "`r`nMusicBrainz: https://musicbrainz.org/release-group/"+ $lidarr_album_mbid + "`r`n"
 
 # Prepare push notification body
 

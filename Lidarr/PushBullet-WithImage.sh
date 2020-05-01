@@ -1,6 +1,6 @@
 #!/bin/bash
 apikey="" # Your Lidarr API key 
-lidarr_address="http://localhost:7878" # Your Lidarr address (including base_url) 
+lidarr_address="http://localhost:8686" # Your Lidarr address (including base_url) 
 pushkey="" # Your PushBullet API key
 pushtag="" # Optional push channel if you need it
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
