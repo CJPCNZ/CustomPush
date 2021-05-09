@@ -15,10 +15,13 @@ $pushmessage = $lidarr_artist_name + " - " + $lidarr_album_title + "Release Date
 $headers = @{"Content-Type" = "application/json"}
 
 # Prepare push notification body
-$pushbody = @{
-    "text" = $pushmessage
-    "chat_id" = $pushtag
+# Prepare push notification body
+$pushbody = @"
+{
+    "text": "$pushmessage",
+    "chat_id": $pushtag
 }
+"@ 
 
 # Send push notification
 Invoke-WebRequest -Method POST -Uri "https://api.telegram.org/bot$pushkey/sendMessage" -UseBasicParsing -Header $headers -Body $pushBody

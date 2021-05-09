@@ -18,10 +18,12 @@ $pushmessage = $radarr_movie_title + " - " + $radarr_moviefile_quality  + " : " 
 $headers = @{"Content-Type" = "application/json"}
 
 # Prepare push notification body
-$pushbody = @{
-    "text" = $pushmessage
-    "chat_id" = $pushtag
-} | ConvertTo-JSON
+$pushbody = @"
+{
+    "text": "$pushmessage",
+    "chat_id": $pushtag
+}
+"@ 
 
 # Send push notification
 Invoke-WebRequest -Method POST -Uri "https://api.telegram.org/bot$pushkey/sendMessage" -UseBasicParsing -Header $headers -Body $pushBody

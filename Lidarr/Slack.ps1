@@ -14,10 +14,12 @@ $pushmessage = $lidarr_artist_name + " - " + $lidarr_album_title + "Release Date
 $headers = @{"Content-Type" = "application/json"; "Authorization" = $pushkey}
 
 # Prepare push notification body
-$pushbody = @{
-    "text" = $pushmessage
-    "channel" = $pushtag
+$pushbody = @"
+{
+    "text": "$pushmessage",
+    "channel: "$pushtag"
 }
+"@
 
 # Send push notification
 Invoke-WebRequest -Method POST -Uri "https://slack.com/api/chat.postMessage" -UseBasicParsing -Header $headers -Body $pushBody
