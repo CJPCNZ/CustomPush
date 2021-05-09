@@ -21,7 +21,7 @@ $headers = @{"Content-Type" = "application/json"}
 $pushbody = @{
     "text" = $pushmessage
     "chat_id" = $pushtag
-}
+} | ConvertTo-JSON
 
 # Send push notification
 Invoke-WebRequest -Method POST -Uri "https://api.telegram.org/bot$pushkey/sendMessage" -UseBasicParsing -Header $headers -Body $pushBody
