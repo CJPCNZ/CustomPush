@@ -21,6 +21,7 @@ pushmessage+=$'\n'
 pushbody=$( jq -n \
     --arg text "$pushmessage" \
     --arg channel "$pushtag" \
+    '{text: $text, channel: $pushtag}'
 )
 
 # Send push notification

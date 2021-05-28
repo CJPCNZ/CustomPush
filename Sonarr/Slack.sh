@@ -19,6 +19,7 @@ pushmessage+=$sonarr_episodefile_episodenumbers
 pushbody=$( jq -n \
     --arg text "$pushmessage" \
     --arg channel "$pushtag" \
+    '{text: $text, channel: $pushtag}'
 )
 
 # Send push notification
