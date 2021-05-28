@@ -8,8 +8,8 @@ $ffpmeg -i $radarr_moviefile_path -sn -profile:v baseline -level 3.0 -start_numb
 rm $radarr_moviefile_path
 
 # Multiple Output Files
-$ffmpeg -i $radarr_moviefile_path -sn -profile:v baseline -level 3.0 -start_number 0 -hls_time 10 -hls_list_size 0 "$radarr_movie_path/output.m3u8"
-rm $radarr_moviefile_path
+#$ffmpeg -i $radarr_moviefile_path -sn -profile:v baseline -level 3.0 -start_number 0 -hls_time 10 -hls_list_size 0 "$radarr_movie_path/output.m3u8"
+#rm $radarr_moviefile_path
 
 pushbody=$( jq -n \
     --arg name "RefreshMovie" \
