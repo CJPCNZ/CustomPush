@@ -55,4 +55,4 @@ echo "${Message}"
 echo "."
 sleep 3
 echo "QUIT"
-) | openssl s_client -starttls smtp -connect $MailHost:$MailPort -crlf
+) | openssl s_client -starttls smtp -connect $MailHost:$MailPort -crlf -nocommands
